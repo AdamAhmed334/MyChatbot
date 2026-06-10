@@ -10,3 +10,5 @@ for message in st.session_state.messages:
 prompt_text = st.chat_input("اكتب الرسلة")
 if prompt_text:
   st.session_state.messages.append({"role" : "user" , "content" : prompt_text})
+  with st.chat_message("user"):
+    st.write(prompt_text)
