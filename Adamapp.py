@@ -19,7 +19,7 @@ if prompt_text:
            for msg in st.session_state.messages:
              messages.append({"role" : msg["role"] , "content" : msg["content"]})
              respon = cilent.chat.completions.create(
-             model = "llama-3.3-70b-versatile",
+             model = "llama-3.3-70b-specdec",
              messages=messages,
              max_tokens = 5000,
              temperature = 1
