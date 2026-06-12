@@ -1,7 +1,7 @@
 import streamlit as st
 from groq import Groq
 st.title("Mychatbot")
-cilent = Groq(api_key=st.secret[GROQ_API_KEY])
+cilent = Groq(api_key=st.secrets["GROQ_API_KEY"])
 if "messages" not in st.session_state:
   st.session_state.messages = []
 for message in st.session_state.messages:
