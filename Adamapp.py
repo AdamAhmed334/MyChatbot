@@ -18,7 +18,7 @@ if prompt_text:
            messages = [{"role" : "system" , "content" : "you are a helpful assistant "}]
            for msg in st.session_state.messages:
              messages.append({"role" : msg["role"] , "content" : msg["content"]})
-            respon = cilent.chat.completions.create(
+             respon = cilent.chat.completions.create(
              model = "llama-3.3-70b-versatile",
              messages=messages,
              max_tokens = 5000,
