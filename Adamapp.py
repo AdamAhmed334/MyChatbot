@@ -25,7 +25,7 @@ if prompt_text:
              temperature = 1
             )
            answer = respon.choices[0].message.content
-      except Exception as e:
-        answer = str(e)
-    st.write(answer)
-    st.session_state,messages.append({"role" :  "assistant" , "content" : answer})
+         except Exception as e:
+           answer = str(e)
+           st.write(answer)
+           st.session_state,messages.append({"role" :  "assistant" , "content" : answer})
