@@ -12,8 +12,8 @@ if prompt_text:
   st.session_state.messages.append({"role" : "user" , "content" : prompt_text})
   with st.chat_message("user"):
     st.write(pronpt_text)
-     with st.chat_message("assistant"):
-       with st.spinner("Thing..."):
+    with st.chat_message("assistant"):
+      with st.spinner("Thing..."):
          try:
            messages = [{"role" : "system" , "content" : "you are a helpful assistant "}]
            for msg in st.session_state.messages:
