@@ -29,7 +29,7 @@ if prompt_text:
                 
           
                 respon = client.chat.completions.create(
-                    model="llama-3.3-70b-specdec", 
+                    model="llama-3.3-70b-versatile", 
                     messages=messages,
                     max_tokens=5000,
                     temperature=1
