@@ -11,7 +11,7 @@ prompt_text = st.chat_input("write your text")
 if prompt_text:
   st.session_state.messages.append({"role" : "user" , "content" : prompt_text})
   with st.chat_message("user"):
-    st.write(pronpt_text)
+    st.write(prompt_text)
     with st.chat_message("assistant"):
       with st.spinner("Thing..."):
          try:
