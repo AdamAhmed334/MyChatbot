@@ -55,7 +55,7 @@ if audio:
                 with open(path,"rb") as f:
                     tarnascript = client.audio.transcriptions.create(
                         model = "whisper-lager-v3",
-                        file=(os.path.besename(path),f),
+                        file=(os.path.basename(path),f),
                         respon_text = "text"
                     )
             finally:
