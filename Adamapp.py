@@ -53,7 +53,7 @@ if audio:
                 path = tmp.name
             try:
                 with open(path,"rb") as f:
-                    tarnascript = cilent.audio.transcriptions.create(
+                    tarnascript = client.audio.transcriptions.create(
                         model = "whisper-lager-v3",
                         file=(os.path.besename(path),f),
                         respon_text = "text"
