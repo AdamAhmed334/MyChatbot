@@ -45,3 +45,18 @@ if prompt_text:
 st.markdown("---")
 st.markdown("السمعات") 
 audio = st.audio_input("اسمعك")
+if audio:
+    if st.button("send"):
+        with st.spinner("loding..."):
+            with tempfile.NamedTemporaryFile(delete = False , suffix =".wav") as tmp:
+                tmp.write(tmp.read())
+                path = tmp.name
+            try:
+                open(path,"rb") as f:
+                tarnascript = cilent.audio.transcriptions.create(
+                    model = "whisper-lager-v3",
+                   ke=(os.path.besename(path),f),
+                    respon_text = "text"
+                )
+            finally:
+                os.unlink(path)
