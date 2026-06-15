@@ -43,5 +43,5 @@ if prompt_text:
             st.write(answer)
             st.session_state.messages.append({"role" : "assistant" , "content" : answer})
 st.markdown("---")
-st.mardown("السمعات") 
+st.markdown("السمعات") 
 audio = st.audio_input("اسمعك")
