@@ -1,5 +1,6 @@
 import streamlit as st
 from groq import Groq
+import tempfile , os
 
 st.title("Mychatbot")
 
@@ -41,3 +42,6 @@ if prompt_text:
     
             st.write(answer)
             st.session_state.messages.append({"role" : "assistant" , "content" : answer})
+st.markdown("---")
+st.mardown("السمعات") 
+audio = st.audio_input("اسمعك")
