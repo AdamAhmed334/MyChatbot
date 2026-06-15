@@ -52,11 +52,11 @@ if audio:
                 tmp.write(tmp.read())
                 path = tmp.name
             try:
-                open(path,"rb") as f:
-                tarnascript = cilent.audio.transcriptions.create(
-                    model = "whisper-lager-v3",
-                   ke=(os.path.besename(path),f),
-                    respon_text = "text"
-                )
+                with open(path,"rb") as f:
+                    tarnascript = cilent.audio.transcriptions.create(
+                        model = "whisper-lager-v3",
+                        file=(os.path.besename(path),f),
+                        respon_text = "text"
+                    )
             finally:
                 os.unlink(path)
