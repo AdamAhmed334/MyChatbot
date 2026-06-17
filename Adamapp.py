@@ -32,7 +32,7 @@ if prompt := st.chat_input("اكتبي سؤالك هنا..."):
                 )
                 answer = response.choices[0].message.content
             except Exception as e:
-                answ    er = f"خطأ: {str(e)}"
+                answer = f"خطأ: {str(e)}"
         st.write(answer)
     st.session_state.messages.append({"role": "assistant", "content": answer})
  
