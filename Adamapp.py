@@ -56,6 +56,12 @@ if audio:
                     )
             finally:
               os.unlink(path)
+      if not transcript or len(transcript.strip()) < 2:
+        st.erorr("لم يتم بث الصؤتك")
+      else:
+        st.session_state.messages.append({"role" : "user", "content" : transcript})
+        with st.chat_message("user"):
+          st.write(transcript)
         
         
         
