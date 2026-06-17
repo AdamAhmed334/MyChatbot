@@ -45,6 +45,7 @@ audio = st.audio_input("سجّل سؤالك...")
  
 if audio:
     if st.button("أرسل الصوت "):
+        # تحويل الصوت إلى نص
         with st.spinner("جاري تحويل صوتك إلى نص..."):
             with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
                 tmp.write(audio.read())
@@ -62,6 +63,27 @@ if audio:
         if not transcript or len(transcript.strip()) < 2:
             st.error("لم يتم التعرف على الصوت، حاول مرة أخرى!")
         else:
+            # إضافة سؤال المستخدم للمحادثة
             st.session_state.messages.append({"role": "user", "content": transcript})
             with st.chat_message("user"):
                 st.write(f" {transcript}")
+ 
+            # الحصول على رد الـ Chatbot
+            with st.chat_message("assistant"):
+                with st.spinner("جاري التفكير..."):
+                    try:
+                        messages = [{"role": "system", "content": "You are a helpful assistant."}]
+                        for msg in st.session_state.messages:
+                            messages.append({"role": msg["role"], "content": msg["content"]})
+                        response = client.chat.completions.create(
+                            model="llama-3.3-70b-versatile",
+                            messages=messages,
+                            max_tokens=500,
+                            temperature=0.7
+                        )
+                        answer = response.choices[0].message.content
+                    except Exception as e:
+                        answer = f"خطأ: {str(e)}"
+                st.write(answer)
+            st.session_state.messages.append({"role": "assistant", "content": answer})
+            st.rerun()
