@@ -1,49 +1,51 @@
 import streamlit as st
 from groq import Groq
 import tempfile, os
-
+ 
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-st.title("MY CHATBOT")
+ 
 
+st.title("🤖 My Chatbot")
+ 
 if "messages" not in st.session_state:
-  st.session_state.messages = []
-
+    st.session_state.messages = []
+ 
 for message in st.session_state.messages:
-  with st.chat_message(message["role"]):
-    st.write(message["content"])
-
-prompt_text = st.chat_input("Write your message...")
-
-if prompt_text:
-  st.session_state.messages.append({"role" : "user", "content" : prompt_text})
-  with st.chat_message("user"):
-    st.write(prompt_text)
-  with st.chat_message("assistant"):
-    with st.spinner("جاري التفكير..."):
-      try:
-        messages = [{"role" : "system" , "content" : "You are a helpful assistant."}]
-        for msg in st.session_state.messages:
-          messages.append({"role" : msg["role"], "content" : msg["content"]})
-        response = client.chat.completions.create(
-          model="llama-3.3-70b-versatile",
-          messages=messages,
-          max_tokens=500,
-          temperature=0.7
-        )
-        answer = response.choices[0].message.content
-      except Exception as error:
-        answer = f"خطأ {str(error)}"
-    st.write(answer)
-  st.session_state.messages.append({"role" : "assistant", "content" : answer})
-        
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+ 
+if prompt := st.chat_input("اكتبي سؤالك هنا..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.write(prompt)
+    with st.chat_message("assistant"):
+        with st.spinner("جاري التفكير..."):
+            try:
+                messages = [{"role": "system", "content": "You are a helpful assistant."}]
+                for msg in st.session_state.messages:
+                    messages.append({"role": msg["role"], "content": msg["content"]})
+                response = client.chat.completions.create(
+                    model="llama-3.3-70b-versatile",
+                    messages=messages,
+                    max_tokens=500,
+                    temperature=0.7
+                )
+                answer = response.choices[0].message.content
+            except Exception as e:
+                answ    er = f"خطأ: {str(e)}"
+        st.write(answer)
+    st.session_state.messages.append({"role": "assistant", "content": answer})
+ 
+ 
 
 st.markdown("---")
-st.markdown("Speak")
-audio = st.audio_input("Start your audio")
-
+st.markdown("### تحدث بدلاً من الكتابة")
+ 
+audio = st.audio_input("سجّل سؤالك...")
+ 
 if audio:
-  if st.button("Send"):
-    with st.spinner("جاري تحويل صوتك إلى نص..."):
+    if st.button("أرسل الصوت "):
+        with st.spinner("جاري تحويل صوتك إلى نص..."):
             with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
                 tmp.write(audio.read())
                 path = tmp.name
@@ -55,29 +57,11 @@ if audio:
                         response_format="text"
                     )
             finally:
-              os.unlink(path)
-      if not transcript or len(transcript.strip()) < 2:
-        st.erorr("لم يتم بث الصؤتك")
-      else:
-        st.session_state.messages.append({"role" : "user", "content" : transcript})
-        with st.chat_message("user"):
-          st.write(transcript)
-        
-        
-        
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+                os.unlink(path)
+ 
+        if not transcript or len(transcript.strip()) < 2:
+            st.error("لم يتم التعرف على الصوت، حاول مرة أخرى!")
+        else:
+            st.session_state.messages.append({"role": "user", "content": transcript})
+            with st.chat_message("user"):
+                st.write(f" {transcript}")
